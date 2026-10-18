@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "YouTube Tile View",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Adjusts YouTube so the video player takes up the entire viewport. Squishes the masthead during video playback and eases it back in when paused or video completes.",
   "permissions": [
     "*://*.youtube.com/*"
