@@ -30,8 +30,8 @@ This extension adjusts YouTube so the video player takes up the entire viewport.
 
 ## 🌟 Key Features
 
-- **Viewport-Filling Player**: Expands the video container (`#full-bleed-container`) to occupy the exact remaining screen height on load (`calc(100vh - 56px)`).
-- **Auto-Hide Header on Play**: As soon as playback starts (`play` / `playing` events), the top masthead squishes smoothly upwards and fades out, allowing the video player to expand to `100vh`.
+- **Theater Mode Viewport Expansion**: When in theater mode, expands the video container (`#full-bleed-container`) to occupy the exact remaining screen height on load (`calc(100vh - 56px)`).
+- **Auto-Hide Header on Play**: As soon as playback starts (`play` / `playing` events) in theater mode, the top masthead squishes smoothly upwards and fades out, allowing the video player to expand to `100vh`.
 - **Smooth Header Easing on Pause**: Pausing or finishing a video (`pause` / `ended` events) brings the top bar smoothly back down into view.
 - **Fluid CSS Transitions**: Utilizes `cubic-bezier(0.4, 0, 0.2, 1)` transitions for fluid resizing without sudden jumps or visual glitches.
 - **Ambient / Cinematic Mode Compatible**: Carefully layers z-indexes so YouTube's background ambient glow canvas (`#cinematic-container`) remains intact without occluding the video or causing black screens.
@@ -42,8 +42,8 @@ This extension adjusts YouTube so the video player takes up the entire viewport.
 ## File Details
 
 - **[`manifest.json`](manifest.json)**: Configures the extension for `*://*.youtube.com/*` with `document_idle` execution.
-- **[`content.js`](content.js)**: Observes video element creation, listens for playback state events (`play`, `playing`, `pause`, `ended`), toggles the `yt-topbar-hidden` class on the root HTML element, and triggers YouTube's internal `resize` dispatch to recalculate video dimensions.
-- **[`content.css`](content.css)**: Implements transform scaling (`translateY(-100%) scaleY(0)`), opacity fades, and sizing transitions for `#full-bleed-container` and `#page-manager`.
+- **[`content.js`](content.js)**: Observes video element creation and theater mode state changes, listens for playback state events (`play`, `playing`, `pause`, `ended`), toggles the `yt-topbar-hidden` class on the root HTML element while in theater mode, and triggers YouTube's internal `resize` dispatch to recalculate video dimensions.
+- **[`content.css`](content.css)**: Implements transform scaling (`translateY(-100%) scaleY(0)`), opacity fades, and sizing transitions for `#full-bleed-container` and `#page-manager` scoped to theater mode.
 
 ---
 
@@ -74,6 +74,6 @@ This extension adjusts YouTube so the video player takes up the entire viewport.
 
 ## 🎮 Usage
 
-1. Open any YouTube video.
+1. Open any YouTube video and switch to **Theater Mode** (press <kbd>t</kbd>).
 2. **Press Play** (or spacebar / <kbd>k</kbd>): The navigation bar smoothly slides and squishes away, expanding the player to full viewport height.
 3. **Press Pause**: The navigation bar smoothly slides back into view, restoring access to search, notifications, and profile menus.

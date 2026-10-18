@@ -3,13 +3,22 @@
     return window.location.pathname.startsWith('/watch');
   }
 
+  function isTheaterMode() {
+    const watchFlexy = document.querySelector('ytd-watch-flexy');
+    return Boolean(watchFlexy && watchFlexy.hasAttribute('theater'));
+  }
+
+  function shouldHideTopbar() {
+    return isWatchPage() && isTheaterMode();
+  }
+
   function triggerResize() {
     // Notify YouTube player internal calculations of layout dimension changes
     window.dispatchEvent(new Event('resize'));
   }
 
   function hideTopbar() {
-    if (isWatchPage() && !document.documentElement.classList.contains('yt-topbar-hidden')) {
+    if (shouldHideTopbar() && !document.documentElement.classList.contains('yt-topbar-hidden')) {
       document.documentElement.classList.add('yt-topbar-hidden');
       setTimeout(triggerResize, 420);
     }
@@ -22,19 +31,33 @@
     }
   }
 
+  function syncTopbarState() {
+    if (!shouldHideTopbar()) {
+      showTopbar();
+      return;
+    }
+
+    const video = document.querySelector('video.html5-main-video');
+    if (video && !video.paused && !video.ended && video.readyState > 2) {
+      hideTopbar();
+    } else {
+      showTopbar();
+    }
+  }
+
   function attachVideoListeners(video) {
     if (!video || video._ytpCustomListenersAttached) return;
     video._ytpCustomListenersAttached = true;
 
-    // When video starts playing: squish and vanish topbar
+    // When video starts playing: squish and vanish topbar (if in theater mode)
     video.addEventListener('play', () => {
-      if (isWatchPage()) {
+      if (shouldHideTopbar()) {
         hideTopbar();
       }
     });
 
     video.addEventListener('playing', () => {
-      if (isWatchPage()) {
+      if (shouldHideTopbar()) {
         hideTopbar();
       }
     });
@@ -49,13 +72,7 @@
     });
 
     // Check state immediately in case it's already playing when listener attaches
-    if (!video.paused && !video.ended && video.readyState > 2) {
-      if (isWatchPage()) {
-        hideTopbar();
-      }
-    } else {
-      showTopbar();
-    }
+    syncTopbarState();
   }
 
   function observePlayer() {
@@ -65,9 +82,33 @@
     }
   }
 
-  // Observe DOM for video element additions or replacements across navigations
+  // Observe ytd-watch-flexy for theater attribute changes
+  let currentWatchFlexy = null;
+  const theaterObserver = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'theater') {
+        syncTopbarState();
+      }
+    }
+  });
+
+  function observeTheaterMode() {
+    const watchFlexy = document.querySelector('ytd-watch-flexy');
+    if (watchFlexy && watchFlexy !== currentWatchFlexy) {
+      theaterObserver.disconnect();
+      currentWatchFlexy = watchFlexy;
+      theaterObserver.observe(watchFlexy, {
+        attributes: true,
+        attributeFilter: ['theater']
+      });
+      syncTopbarState();
+    }
+  }
+
+  // Observe DOM for video element additions or replacements and watch-flexy creation
   const observer = new MutationObserver(() => {
     observePlayer();
+    observeTheaterMode();
   });
 
   observer.observe(document.documentElement, {
@@ -80,9 +121,11 @@
     // Show topbar on navigation
     showTopbar();
     observePlayer();
+    observeTheaterMode();
   });
 
-  // Initial setup: topbar is in place on initial load
-  showTopbar();
+  // Initial setup
+  observeTheaterMode();
   observePlayer();
+  syncTopbarState();
 })();

@@ -7,27 +7,27 @@
 /* Smooth transition for masthead squishing/expansion */
 #masthead-container {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   transform-origin: top center !important;
 }
 
-/* Base sizing: full-bleed-container occupies remaining viewport below topbar */
-#full-bleed-container,
-ytd-watch-flexy[full-bleed-player] #full-bleed-container,
-ytd-watch-flexy[full-bleed-player] #player-full-bleed-container {
+/* Base sizing: full-bleed-container occupies remaining viewport below topbar ONLY in theater mode */
+ytd-watch-flexy[theater] #full-bleed-container,
+ytd-watch-flexy[theater][full-bleed-player] #full-bleed-container,
+ytd-watch-flexy[theater][full-bleed-player] #player-full-bleed-container {
   height: calc(100vh - var(--ytd-masthead-height, 56px)) !important;
   max-height: calc(100vh - var(--ytd-masthead-height, 56px)) !important;
   min-height: calc(100vh - var(--ytd-masthead-height, 56px)) !important;
   transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              min-height 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    min-height 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Let the inner YouTube player fill full-bleed-container naturally */
-#full-bleed-container #player-container,
-#full-bleed-container ytd-player,
-#full-bleed-container #ytd-player,
-#full-bleed-container .html5-video-player {
+/* Let the inner YouTube player fill full-bleed-container naturally in theater mode */
+ytd-watch-flexy[theater] #full-bleed-container #player-container,
+ytd-watch-flexy[theater] #full-bleed-container ytd-player,
+ytd-watch-flexy[theater] #full-bleed-container #ytd-player,
+ytd-watch-flexy[theater] #full-bleed-container .html5-video-player {
   height: 100% !important;
   max-height: 100% !important;
   width: 100% !important;
@@ -65,7 +65,7 @@ ytd-watch-flexy[full-bleed-player] #player-full-bleed-container {
 }
 
 /* ========================================================
-   Idle State (15s inactivity): Squish topbar and fill 100vh
+   Idle State (Playing): Squish topbar and fill 100vh (theater mode only)
    ======================================================== */
 html.yt-topbar-hidden #masthead-container {
   transform: translateY(-100%) scaleY(0) !important;
@@ -73,9 +73,9 @@ html.yt-topbar-hidden #masthead-container {
   pointer-events: none !important;
 }
 
-html.yt-topbar-hidden #full-bleed-container,
-html.yt-topbar-hidden ytd-watch-flexy[full-bleed-player] #full-bleed-container,
-html.yt-topbar-hidden ytd-watch-flexy[full-bleed-player] #player-full-bleed-container {
+html.yt-topbar-hidden ytd-watch-flexy[theater] #full-bleed-container,
+html.yt-topbar-hidden ytd-watch-flexy[theater][full-bleed-player] #full-bleed-container,
+html.yt-topbar-hidden ytd-watch-flexy[theater][full-bleed-player] #player-full-bleed-container {
   height: 100vh !important;
   max-height: 100vh !important;
   min-height: 100vh !important;
