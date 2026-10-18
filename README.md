@@ -1,4 +1,4 @@
-# YouTube Fullscreen Viewport
+# YouTube Tile View
 
 ![Firefox Add-on](docs/logo.png)
 
@@ -53,7 +53,7 @@ This extension adjusts YouTube so the video player takes up the entire viewport.
 
 1. Clone or download this repository to your local machine:
    ```bash
-   git clone https://github.com/ramity/youtube-tile-viewer.git
+   git clone https://github.com/ramity/youtube-tile-view.git
    ```
 2. Open Firefox and navigate to:
    ```text
