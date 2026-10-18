@@ -1,0 +1,11 @@
+services:
+  web:
+    container_name: yt_viewer_web
+    image: yt_viewer_web
+    build:
+      context: .
+      dockerfile: docker/web/dockerfile
+    volumes:
+      - ./src:/app
+      - ./scripts:/root/scripts
+      - ./artifacts:/artifacts

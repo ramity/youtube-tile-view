@@ -1,0 +1,14 @@
+FROM node:20-alpine
+
+# Install web-ext globally using npm for linting and packaging Firefox extensions
+RUN apk add --no-cache bash
+
+RUN npm install --global web-ext
+
+# Set working directory to the project root inside container
+WORKDIR /root/scripts
+
+# Default command to lint extension files
+# CMD ["web-ext", "lint"]
+
+ENTRYPOINT ["sleep", "infinity"]
