@@ -1,6 +1,30 @@
 # YouTube Fullscreen Viewport
 
-A lightweight Firefox browser extension that optimizes YouTube's video watch page into an immersive, viewport-filling theater experience. It dynamically squishes the navigation header (`#masthead-container`) out of view during video playback and smoothly restores it whenever playback is paused or completed.
+![Firefox Add-on](docs/logo.png)
+
+https://addons.mozilla.org/en-US/firefox/addon/youtube-tile-view/
+
+> Curated slopware
+
+This extension adjusts YouTube so the video player takes up the entire viewport.
+
+---
+
+# Why?
+
+### Does it bother you that the youtube video player only takes up 75% of the screen when the window is tiled?
+
+![Screenshot](docs/screenshot-before.png)
+
+### After installation
+
+![Screenshot](docs/screenshot-playing.png)
+
+> Masthead is hidden when video is playing.
+
+![Screenshot](docs/screenshot-paused.png)
+
+> Masthead slides back into view when video is paused or completes.
 
 ---
 
@@ -15,17 +39,7 @@ A lightweight Firefox browser extension that optimizes YouTube's video watch pag
 
 ---
 
-## 📁 Project Structure
-
-```text
-yt-viewer/
-├── manifest.json   # Extension metadata, permissions, and content script registration (Manifest V2)
-├── content.js      # Media event listeners, MutationObserver, and SPA navigation handling
-├── content.css     # Responsive viewport calculations and masthead transform/fade transitions
-└── README.md       # Project documentation
-```
-
-### File Details
+## File Details
 
 - **[`manifest.json`](manifest.json)**: Configures the extension for `*://*.youtube.com/*` with `document_idle` execution.
 - **[`content.js`](content.js)**: Observes video element creation, listens for playback state events (`play`, `playing`, `pause`, `ended`), toggles the `yt-topbar-hidden` class on the root HTML element, and triggers YouTube's internal `resize` dispatch to recalculate video dimensions.
@@ -39,7 +53,7 @@ yt-viewer/
 
 1. Clone or download this repository to your local machine:
    ```bash
-   git clone https://github.com/your-username/yt-viewer.git
+   git clone https://github.com/ramity/youtube-tile-viewer.git
    ```
 2. Open Firefox and navigate to:
    ```text
@@ -63,9 +77,3 @@ yt-viewer/
 1. Open any YouTube video.
 2. **Press Play** (or spacebar / <kbd>k</kbd>): The navigation bar smoothly slides and squishes away, expanding the player to full viewport height.
 3. **Press Pause**: The navigation bar smoothly slides back into view, restoring access to search, notifications, and profile menus.
-
----
-
-## 📄 License
-
-MIT License. Feel free to modify and adapt for personal use.
