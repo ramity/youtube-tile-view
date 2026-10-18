@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "YT Viewer",
-  "version": "0.0.1",
-  "description": "Adjusts YouTube layout so the masthead and video player take up the entire viewport, squishing the masthead during video playback and easing it in when paused.",
+  "name": "YouTube Tile View",
+  "version": "0.0.2",
+  "description": "Adjusts YouTube so the video player takes up the entire viewport. Squishes the masthead during video playback and eases it back in when paused or video completes.",
   "permissions": [
     "*://*.youtube.com/*"
   ],
@@ -22,7 +22,7 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "yt-viewer@wryco.com",
+      "id": "youtube-tile-view@wryco.com",
       "strict_min_version": "142.0",
       "data_collection_permissions": {
         "required": [
