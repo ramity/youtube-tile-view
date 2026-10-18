@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "YT Viewer",
+  "version": "0.0.1",
+  "description": "Adjusts YouTube layout so the masthead and video player take up the entire viewport, squishing the masthead during video playback and easing it in when paused.",
+  "permissions": [
+    "*://*.youtube.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

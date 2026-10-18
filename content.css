@@ -1,0 +1,86 @@
+/* YouTube Full Viewport & Auto-hide Masthead Style */
+
+:root {
+  --ytd-masthead-height: 56px;
+}
+
+/* Smooth transition for masthead squishing/expansion */
+#masthead-container {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform-origin: top center !important;
+}
+
+/* Base sizing: full-bleed-container occupies remaining viewport below topbar */
+#full-bleed-container,
+ytd-watch-flexy[full-bleed-player] #full-bleed-container,
+ytd-watch-flexy[full-bleed-player] #player-full-bleed-container {
+  height: calc(100vh - var(--ytd-masthead-height, 56px)) !important;
+  max-height: calc(100vh - var(--ytd-masthead-height, 56px)) !important;
+  min-height: calc(100vh - var(--ytd-masthead-height, 56px)) !important;
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              min-height 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Let the inner YouTube player fill full-bleed-container naturally */
+#full-bleed-container #player-container,
+#full-bleed-container ytd-player,
+#full-bleed-container #ytd-player,
+#full-bleed-container .html5-video-player {
+  height: 100% !important;
+  max-height: 100% !important;
+  width: 100% !important;
+}
+
+/*
+  IMPORTANT FIX FOR CINEMATIC/AMBIENT MODE BUG:
+  Do NOT force video.html5-main-video width/height/top/left directly, because
+  YouTube's ambient canvas (#cinematic-container) renders over or next to the video
+  if YouTube's internal layout calculations are overridden.
+  Keep video visible and ensure cinematic lighting canvas stays in background (z-index -1).
+*/
+#cinematic-container,
+#cinematic-lighting,
+.ytp-cued-thumbnail-overlay {
+  z-index: 0 !important;
+}
+
+.html5-video-container {
+  z-index: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.html5-video-player video.html5-main-video {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 1 !important;
+}
+
+/* Smooth page-manager transition */
+#page-manager {
+  transition: margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ========================================================
+   Idle State (15s inactivity): Squish topbar and fill 100vh
+   ======================================================== */
+html.yt-topbar-hidden #masthead-container {
+  transform: translateY(-100%) scaleY(0) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+html.yt-topbar-hidden #full-bleed-container,
+html.yt-topbar-hidden ytd-watch-flexy[full-bleed-player] #full-bleed-container,
+html.yt-topbar-hidden ytd-watch-flexy[full-bleed-player] #player-full-bleed-container {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  min-height: 100vh !important;
+}
+
+html.yt-topbar-hidden #page-manager {
+  margin-top: 0px !important;
+}
